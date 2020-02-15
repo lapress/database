@@ -3,12 +3,8 @@
 namespace LaPress\Database\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
-use LaPress\Database\Post;
-use LaPress\Database\PostMeta;
-use LaPress\Database\Term;
-use LaPress\Database\TermMeta;
-use LaPress\Database\User;
-use LaPress\Database\UserMeta;
+use LaPress\Database\ModelResolver;
+
 
 /**
  * @author    Sebastian Szczepański
@@ -17,14 +13,16 @@ use LaPress\Database\UserMeta;
 trait HasMeta
 {
     /**
-     * @var array
+     * @return array
      */
-    protected $metaModels = [
-        Post::class => PostMeta::class,
-        Term::class => TermMeta::class,
-        User::class => UserMeta::class,
-    ];
-
+    public function getMetaModels(): array
+    {
+        return [
+            ModelResolver::resolve('Post') => ModelResolver::resolve('PostMeta'),
+            ModelResolver::resolve('Term') => ModelResolver::resolve('TermMeta'),
+            ModelResolver::resolve('User') => ModelResolver::resolve('UserMeta'),
+        ];
+    }
     /**
      * @return null|string
      */
@@ -32,7 +30,7 @@ trait HasMeta
     {
         $key = $this->getMetableClassKey();
 
-        return $this->metaModels[$key];
+        return $this->getMetaModels()[$key];
     }
 
     /**
@@ -42,15 +40,15 @@ trait HasMeta
     {
         $key = get_class($this);
 
-        if (array_key_exists($key, $this->metaModels)) {
+        if (array_key_exists($key, $this->getMetaModels())) {
             return $key;
         }
 
-        if (array_key_exists(get_parent_class($key), $this->metaModels)) {
+        if (array_key_exists(get_parent_class($key), $this->getMetaModels())) {
             return get_parent_class($key);
         }
 
-        return Post::class;
+        return ModelResolver::resolve('Post');
     }
 
 
