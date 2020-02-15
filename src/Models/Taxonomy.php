@@ -121,7 +121,7 @@ class Taxonomy extends Model
     {
         return $this->term_taxonomy_id;
     }
-    
+
     /**
      * @param string $name
      * @param null   $slug
@@ -175,6 +175,11 @@ class Taxonomy extends Model
         return $this->term->url;
     }
 
+    public function scopePublished($query)
+    {
+        return $query;
+    }
+
     public function toArray()
     {
         return [
@@ -183,7 +188,7 @@ class Taxonomy extends Model
             'slug'  => $this->term->slug,
             'urlKey'  => $this->term->slug,
             'count' => [
-                'posts' => $this->count 
+                'posts' => $this->count
             ],
             'type'  => $this->taxonomy,
         ];
