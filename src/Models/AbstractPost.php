@@ -384,4 +384,25 @@ abstract class AbstractPost extends Model
     {
         return $this->post_status === static::STATUS_POST_PUBLISHED;
     }
+
+    public function getUrlKeyAttribute()
+    {
+        return $this->post_name;
+    }
+
+    public function toArray()
+    {
+        return [
+            'id'         => $this->ID,
+            'title'      => $this->post_title,
+            'excerpt'    => $this->excerpt,
+            'body'       => $this->body,
+            'urlKey'     => $this->urlKey,
+            'categories' => $this->categories,
+            'tags'       => $this->tags,
+            'author'     => $this->author,
+            'date'       => $this->post_date->format('yyyy-MM-dd HH:mm:ss'),
+            'type'       => $this->post_type,
+        ];
+    }
 }

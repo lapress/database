@@ -4,6 +4,7 @@ namespace LaPress\Database\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use LaPress\Database\Events\TaxonomySavedEvent;
 
 /**
  * @author    Sebastian Szczepański
@@ -31,6 +32,12 @@ class Taxonomy extends Model
      */
     protected $primaryKey = 'term_taxonomy_id';
 
+    /**
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'saved' => TaxonomySavedEvent::class
+    ];
     /**
      * The relations to eager load on every query.
      *
@@ -114,22 +121,7 @@ class Taxonomy extends Model
     {
         return $this->term_taxonomy_id;
     }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'id'    => $this->id,
-            'name'  => $this->term->name,
-            'slug'  => $this->term->slug,
-            'count' => $this->count,
-            'type'  => $this->taxonomy,
-            'url'   => $this->url,
-        ];
-    }
-
+    
     /**
      * @param string $name
      * @param null   $slug
@@ -181,5 +173,19 @@ class Taxonomy extends Model
     public function getUrlAttribute()
     {
         return $this->term->url;
+    }
+
+    public function toArray()
+    {
+        return [
+            'id'    => $this->id,
+            'name'  => $this->term->name,
+            'slug'  => $this->term->slug,
+            'urlKey'  => $this->term->slug,
+            'count' => [
+                'posts' => $this->count 
+            ],
+            'type'  => $this->taxonomy,
+        ];
     }
 }

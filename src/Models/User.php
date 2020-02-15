@@ -98,7 +98,7 @@ class User extends Authenticatable
 
         return $user;
     }
-    
+
     /**
      * Posts
      * Define a relationship.
@@ -113,5 +113,14 @@ class User extends Authenticatable
     public static function byName($name)
     {
         return static::whereUserNicename($name)->first();
+    }
+
+    public function toArray()
+    {
+        return [
+            'name'   => $this->display_name,
+            'key'    => $this->user_nicename,
+            'avatar' => $this->avatar,
+        ];
     }
 }
