@@ -5,6 +5,7 @@ namespace LaPress\Database\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use LaPress\Database\Events\PostSavedEvent;
 use LaPress\Database\ModelResolver;
 use LaPress\Database\Scopes\PostTypeScope;
