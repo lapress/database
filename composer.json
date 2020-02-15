@@ -1,0 +1,21 @@
+{
+    "name": "lapress/database",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Sebastian Szczepanski",
+            "email": "sebastian@ably.pl"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/queue": "^6.0",
+        "illuminate/broadcasting": "^6.0",
+        "illuminate/foundation": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaPress\\Database\\": "src/"
+        }
+    }
+}
