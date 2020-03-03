@@ -3,6 +3,7 @@
 namespace LaPress\Database\Models;
 
 use Illuminate\Support\Arr;
+use LaPress\Database\ModelResolver;
 
 /**
  * @author    Sebastian Szczepański
@@ -25,14 +26,14 @@ class ThumbnailMeta extends PostMeta
      */
     public function attachment()
     {
-        return $this->belongsTo(ModelResolver::resolve('Taxonomy'), 'meta_value');
+        return $this->belongsTo(ModelResolver::resolve('Attachment'), 'meta_value');
     }
 
     public function getSizeAttribute()
     {
         return $this->attachment->size;
     }
-    
+
     /**
      * @param string $size
      * @return array
@@ -45,13 +46,13 @@ class ThumbnailMeta extends PostMeta
         }
 
         $meta = $this->attachment->meta->_wp_attachment_metadata;
-        
+
         $sizes = Arr::get($meta, 'sizes');
 
         if (!isset($sizes[$size])) {
             return $this->attachment->url;
         }
-        
+
 
         $data = Arr::get($sizes, $size);
 

@@ -69,6 +69,13 @@ class Menu extends Taxonomy
     }
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->items->toArray();
+    }
+    /**
      * Items
      * Define a relationship.
      *

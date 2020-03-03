@@ -5,6 +5,7 @@ namespace LaPress\Database\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use LaPress\Database\Events\TaxonomySavedEvent;
+use LaPress\Database\ModelResolver;
 
 /**
  * @author    Sebastian Szczepański
@@ -175,9 +176,14 @@ class Taxonomy extends Model
         return $this->term->url;
     }
 
-    public function scopePublished($query)
+    public function scopeIndexable($query)
     {
         return $query;
+    }
+
+    public function isPublished()
+    {
+        return true;
     }
 
     public function toArray()

@@ -5,6 +5,7 @@ namespace LaPress\Database\Models;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use LaPress\Database\ModelResolver;
 use LaPress\Database\Traits\HasMeta;
 use LaPress\Database\UrlGenerators\PostAuthorUrlGenerator;
 

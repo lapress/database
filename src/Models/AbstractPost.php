@@ -5,6 +5,7 @@ namespace LaPress\Database\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use LaPress\Database\Events\PostSavedEvent;
 use LaPress\Database\ModelResolver;
 use LaPress\Database\Scopes\PostTypeScope;
@@ -327,9 +328,7 @@ abstract class AbstractPost extends Model
      */
     public function getUrlAttribute(): ?string
     {
-        $class = (new UrlGeneratorResolver())->resolve($this->post_type);
-
-        return (new $class($this))->get();
+        return url($this->post_name);
     }
 
     /**
@@ -364,7 +363,7 @@ abstract class AbstractPost extends Model
         }
 
         return Str::limit(
-            $this->post_content,
+            strip_tags($this->post_content),
             config('wordpress.excerpt_length', 300)
         );
     }
@@ -375,6 +374,11 @@ abstract class AbstractPost extends Model
     public function scopeRecent($query)
     {
         $query->latest('post_date')->published();
+    }
+
+    public function scopeIndexable($query)
+    {
+        return $query->published();
     }
 
     /**
@@ -398,11 +402,12 @@ abstract class AbstractPost extends Model
             'excerpt'    => $this->excerpt,
             'body'       => $this->body,
             'urlKey'     => $this->urlKey,
-            'categories' => $this->categories,
-            'tags'       => $this->tags,
-            'author'     => $this->author,
-            'date'       => $this->post_date->format('yyyy-MM-dd HH:mm:ss'),
+            'categories' => optional($this->categories)->toArray(),
+            'tags'       => optional($this->tags)->toArray(),
+            'author'     => optional($this->author)->toArray(),
+            'date'       => $this->post_date->format('Y-m-d H:m:s'),
             'type'       => $this->post_type,
+            'template'   => $this->post_format ?: 'base',
         ];
     }
 }
