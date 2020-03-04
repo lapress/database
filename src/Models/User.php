@@ -116,6 +116,11 @@ class User extends Authenticatable
         return static::whereUserNicename($name)->first();
     }
 
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
     public function toArray()
     {
         return [
