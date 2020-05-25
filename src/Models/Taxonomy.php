@@ -197,6 +197,7 @@ class Taxonomy extends Model
                 'posts' => $this->count
             ],
             'type'  => $this->taxonomy,
+            'meta' => $this->term->meta->toArray(),
         ];
     }
 }
