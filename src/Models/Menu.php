@@ -2,6 +2,7 @@
 
 namespace LaPress\Database\Models;
 
+use LaPress\Database\ModelResolver;
 use LaPress\Database\Traits\HasMeta;
 use Illuminate\Database\Eloquent\Builder;
 
