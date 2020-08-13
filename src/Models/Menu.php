@@ -66,7 +66,7 @@ class Menu extends Taxonomy
         $option = Option::collect(config('wordpress.theme.option_key'));
         $menuId = optional($option->get(static::NAV_MENU_LOCATION_KEY))->get($key);
 
-        return static::where('term_taxonomy_id', $menuId) ?: new static();
+        return static::where('term_id', $menuId) ?: new static();
     }
 
     /**
