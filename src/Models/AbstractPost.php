@@ -391,7 +391,7 @@ abstract class AbstractPost extends Model
 
     public function getUrlKeyAttribute()
     {
-        return $this->post_name;
+        return $this->post_name ?? $this->slug ?? null;
     }
 
     public function toArray()

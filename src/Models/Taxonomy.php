@@ -99,6 +99,16 @@ class Taxonomy extends Model
         return $this->belongsTo(ModelResolver::resolve('Taxonomy'), 'parent');
     }
 
+    public function getAnchorAttribute()
+    {
+        return $this->name;
+    }
+
+    public function getUrlKeyAttribute()
+    {
+        return $this->slug;
+    }
+
     /**
      * @return mixed
      */

@@ -13,7 +13,7 @@ use LaPress\Database\Traits\HasMeta;
 class MenuItem extends AbstractPost
 {
     const META_PARENT_KEY = '_menu_item_menu_item_parent';
-    
+
     use HasMeta;
 
     /**
@@ -43,15 +43,43 @@ class MenuItem extends AbstractPost
     }
 
 
+    public function getUrlKeyAttribute()
+    {
+        try {
+            return optional($this->instance())->urlKey ?? $this->urlKey;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
     /**
      * @return array
      */
     public function toArray(): array
     {
-        return [
+        $item = [
             'anchor' => $this->anchor,
-            'url'    => $this->url,
+            'type'   => $this->meta->_menu_item_object,
+            'urlKey' => $this->urlKey,
         ];
+
+        if ($this->url) {
+            $item['url'] = $this->url;
+        }
+
+        if ($this->meta->_menu_item_classes->filter()->count()) {
+            $item['class'] = $this->meta->_menu_item_classes->join(' ');
+        }
+
+        if ($this->meta->_menu_item_target) {
+            $item['target'] = $this->meta->_menu_item_target;
+        }
+
+        if ($this->items->count()) {
+            $item['items'] = $this->items;
+        }
+
+        return $item;
     }
 
     /**
