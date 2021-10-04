@@ -107,7 +107,7 @@ abstract class AbstractPost extends Model
 
         self::creating(function ($post) {
             if (empty($post->post_name)) {
-                $post->post_name = str_slug($post->post_title);
+                $post->post_name = Str::slug($post->post_title);
             }
             $date = Carbon::now();
 
