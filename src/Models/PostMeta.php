@@ -2,6 +2,8 @@
 
 namespace LaPress\Database\Models;
 
+use LaPress\Database\ModelResolver;
+
 /**
  * @author    Sebastian Szczepański
  * @copyright ably
