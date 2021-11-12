@@ -38,4 +38,10 @@ class Post extends AbstractPost
             ModelResolver::resolve('PostTag')
         );
     }
+//
+    public function scopePublished($query)
+    {
+        $query->where('post_status', static::STATUS_POST_PUBLISHED)
+            ->where('post_date', '<', now());
+    }
 }
